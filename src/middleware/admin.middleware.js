@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 
+// xác thực admin
 const adminAuth = async (req, res, next) => {
   try {
     if (!req.user) {

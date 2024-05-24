@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// khởi tạo bảng sản phẩm 
 const ProductSchema = new mongoose.Schema(
   {
     name: {

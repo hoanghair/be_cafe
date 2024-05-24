@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// khởi tạo bảng Order
 const OrderSchema = new mongoose.Schema(
   {
     user: {

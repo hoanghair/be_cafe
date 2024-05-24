@@ -1,6 +1,7 @@
 const log = require("../common/log");
 const ExpresssLogProxy = require("../common/log.proxy");
 
+// xử lý log lỗi 
 function ExampleController() {
   this.log = async (req, res) => {
     try {

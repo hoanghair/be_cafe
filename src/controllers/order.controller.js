@@ -3,6 +3,7 @@ const Product = require("../models/product.model");
 const Cart = require("../models/cart.model");
 
 function OrderController() {
+  // lấy tất cả đơn hàng if
   this.getAll = async (req, res) => {
     try {
       let status = req.query.status;
@@ -18,6 +19,7 @@ function OrderController() {
     }
   };
 
+  // get theo id
   this.getById = async (req, res) => {
     try {
       const order = await Order.findById(req.params.id);
@@ -30,6 +32,7 @@ function OrderController() {
     }
   };
 
+  // tạo đơn hàng
   this.create = async (req, res) => {
     try {
       const { products, shippingAddress, phone } = req.body;
@@ -38,11 +41,14 @@ function OrderController() {
       let total = 0;
       const orderProducts = [];
 
+      // update số lượng
       for (const item of products) {
         const product = await Product.findById(item.productId);
         if (!product) {
           return res.status(404).json({ message: "Product not found!" });
         }
+
+        // tính tổng
         total += product.price * item.quantity;
         orderProducts.push({
           product: item.productId,
@@ -51,6 +57,7 @@ function OrderController() {
         });
       }
 
+      // tạo đơn đặt hàng
       const order = new Order({
         user: userId,
         products: orderProducts,
@@ -62,6 +69,7 @@ function OrderController() {
 
       await order.save();
 
+      // cập nhập số lượng sản phẩm trên db và giỏ hàng
       for (const item of products) {
         const product = await Product.findById(item.productId);
         if (product) {
@@ -70,6 +78,7 @@ function OrderController() {
         }
       }
 
+      // có giỏ hàng thì xóa các mặt hàng đã đặt
       const cart = await Cart.findOne({ user: userId });
       if (cart) {
         for (const item of orderProducts) {
@@ -91,6 +100,7 @@ function OrderController() {
     }
   };
 
+  // gửi phản hồi trạng thái đơn hàng
   this.getAllOrdersForCurrentUser = async (req, res) => {
     try {
       const userId = req.user._id;
@@ -112,6 +122,7 @@ function OrderController() {
     }
   };
 
+  // cập nhập trạng thái đơn hàng theo id
   this.updateOrderStatus = async (req, res) => {
     try {
       const orderId = req.params.id;
@@ -132,15 +143,19 @@ function OrderController() {
     }
   };
 
+  // xóa đươn hàng chỉ add 
   this.delete = async (req, res) => {
     try {
       const orderId = req.params.id;
       const userId = req.user._id;
       const isAdmin = req.user.isAdmin;
+      // tìm 
       const order = await Order.findByIdAndDelete(orderId);
       if (!order) {
         return res.status(404).json({ message: "Order not found!" });
       }
+
+      // check xem có phải người dùng và admin mới dc xóa
       if (order.user.toString() !== userId.toString() && !isAdmin) {
         return res
           .status(403)

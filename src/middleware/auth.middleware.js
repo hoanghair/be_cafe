@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
+// xác thực người dùng
 const auth = async (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
   console.log(token);

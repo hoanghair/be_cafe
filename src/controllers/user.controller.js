@@ -1,14 +1,17 @@
 const User = require("../models/user.model");
 
 function UserController() {
+  // tìm kiếm trả về tt người dùng hiện tại
   this.find = async (req, res) => {
     return res.send(req.user);
   };
 
+  //đăng ký người dùng mới
   this.register = async (req, res) => {
     try {
       const existingUser = await User.findOne({ email: req.body.email });
 
+      //check trùng email
       if (existingUser) {
         return res.status(400).json({ error: "Email already exists" });
       }
@@ -27,6 +30,7 @@ function UserController() {
     }
   };
 
+  //lấy toàn bộ user
   this.getAll = async (req, res) => {
     try {
       let name = req.query.name;

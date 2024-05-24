@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// khởi tạo danh mục
 const CategorySchema = new mongoose.Schema(
   {
     name: {

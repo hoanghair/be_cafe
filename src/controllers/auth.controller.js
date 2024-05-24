@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 
 function AuthController() {
+  // Login Method
   this.login = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -18,6 +19,7 @@ function AuthController() {
     }
   };
 
+  // Logout Method
   this.logout = async (req, res) => {
     try {
       req.user.tokens = req.user.tokens.filter((token) => {

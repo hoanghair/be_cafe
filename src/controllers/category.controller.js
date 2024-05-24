@@ -1,6 +1,8 @@
 const Category = require("../models/category.model");
 
+// tạo danh mục
 function CategoryController() {
+  // tạo danh mục lưu vào db
   this.create = async (req, res) => {
     try {
       const { name } = req.body;
@@ -12,6 +14,7 @@ function CategoryController() {
     }
   };
 
+  // lấy tất cả danh mục
   this.getAll = async (req, res) => {
     try {
       let name = req.query.name;
@@ -27,6 +30,7 @@ function CategoryController() {
     }
   };
 
+  // truy suất theo id 
   this.getById = async (req, res) => {
     try {
       const category = await Category.findById(req.params.id);
@@ -39,6 +43,7 @@ function CategoryController() {
     }
   };
 
+  // cập nhập danh mục theo id 
   this.update = async (req, res) => {
     try {
       const { name } = req.body;
@@ -58,12 +63,14 @@ function CategoryController() {
     }
   };
 
+  // xóa danh mục
   this.delete = async (req, res) => {
     try {
       const categoryId = req.params.id;
 
       const productsCount = await Product.countDocuments({ categoryId });
 
+      // còn sản phẩm không xóa
       if (productsCount > 0) {
         return res.status(400).json({
           message:

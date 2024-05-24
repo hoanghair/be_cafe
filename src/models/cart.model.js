@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// khởi tạo bảng CartItem
 const CartItemSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +19,7 @@ const CartItemSchema = new mongoose.Schema({
   },
 });
 
+// cart của user
 const CartSchema = new mongoose.Schema(
   {
     user: {

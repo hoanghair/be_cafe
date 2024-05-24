@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+// khởi tạo bảng user
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -39,6 +40,7 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// mã hóa mật khẩu
 UserSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
@@ -47,6 +49,7 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+// trả về người dùng thông báo có người dùng mới
 UserSchema.methods.toAuthJSON = function () {
   return {
     username: this.username,
@@ -56,6 +59,7 @@ UserSchema.methods.toAuthJSON = function () {
   };
 };
 
+// tạo mã Token
 UserSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
@@ -70,6 +74,7 @@ UserSchema.methods.generateAuthToken = function () {
   return token;
 };
 
+// check thông tin người dùng 
 UserSchema.statics.findByCredentials = async (email, password) => {
   const user = await User.findOne({ email });
 

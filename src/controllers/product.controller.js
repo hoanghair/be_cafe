@@ -2,6 +2,7 @@ const Order = require("../models/order.model");
 const Product = require("../models/product.model");
 
 function ProductController() {
+  // tạo mới sản phẩm 
   this.create = async (req, res) => {
     try {
       const { name, description, price, quantity, cost, categoryId, image } =
@@ -22,6 +23,7 @@ function ProductController() {
     }
   };
 
+  // lấy tất cả sản phẩm 
   this.getAll = async (req, res) => {
     try {
       let name = req.query.name;
@@ -36,6 +38,7 @@ function ProductController() {
     }
   };
 
+  // lấy theo id
   this.getById = async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
@@ -48,6 +51,7 @@ function ProductController() {
     }
   };
 
+  // update sản phẩm, ko tồn tại trả về 
   this.update = async (req, res) => {
     try {
       const { name, description, price, quantity, cost, categoryId, image } =
@@ -69,7 +73,9 @@ function ProductController() {
     }
   };
 
+  // xóa sản phẩm
   this.delete = async (req, res) => {
+    //kiểm tra nếu sp có trong đơn hàng ko xóa dc
     try {
       const productInOrders = await Order.find({
         "products.product": req.params.id,
@@ -94,6 +100,7 @@ function ProductController() {
     }
   };
 
+  //tính số lượng sp còn lại
   this.getRemainingQuantity = async (req, res) => {
     try {
       const productId = req.params.id;
@@ -117,6 +124,7 @@ function ProductController() {
     }
   };
 
+  //ds sp còn hàng
   this.getInventoryProducts = async (req, res) => {
     try {
       const allProducts = await Product.find();
