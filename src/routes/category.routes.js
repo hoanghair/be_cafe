@@ -9,5 +9,6 @@ router.post("/", auth, roleAdmin, CategoryController.create);
 router.get("/:id", CategoryController.getById);
 router.put("/:id", auth, roleAdmin, CategoryController.update);
 router.delete("/:id", auth, roleAdmin, CategoryController.delete);
+router.get("/with/products", CategoryController.getAllCategoryWithProducts);
 
 module.exports = router;
