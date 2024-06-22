@@ -1,4 +1,5 @@
 const Category = require("../models/category.model");
+const Product = require("../models/product.model");
 
 // tạo danh mục
 function CategoryController() {
